@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<p class="addpost-title">Добавить статью</p>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="formwrapper">
+        <div class="titlefield">
+            {{ form.title }}
+            <button type="submit">Опубликовать</button>
+        </div>
+        <div class="textField">
+            {{ form.content }}
+            {{ form.image }}
+        </div>
+    </div>
+</form>
+
+{% endblock body %}

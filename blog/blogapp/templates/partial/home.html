@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Главная</title>
+<meta name="description" content="{{ desc }}"/>
+<meta name="keywords" content="{{ key }}"/>
+{% endblock %}
+ 
+{% block body %}
+  {% if not posts %}
+  <b>Статьи не найдены</b>
+  {% else %}
+  
+    <div class="lastpost">
+        <div class="lastpost-wrapper">
+            <p class="new">NEW</p>
+            <a href="{{ posts.0.get_absolute_url }}"><b>{{ posts.0.title }}</b></a>
+            <p>{{ posts.0.content |truncatechars:400 }}</p>
+            <a href="{{ posts.0.get_absolute_url }}">
+                <div class="lastpost-readmore">
+                    <p>Читать</p>
+                </div>
+            </a>
+        </div>
+        <img src="{{ posts.0.image.url }}" alt="">
+    </div>
+    <p class="moreposts">Другие статьи</p>
+    <div class="postswrapper">
+    {% for obj in posts %}
+    {% if posts.0.get_absolute_url != obj.get_absolute_url%}
+    <div class="post">
+        <span>{{ obj.timestamp }}</span>
+        <img src="{{ obj.image.url }}" alt="">
+        <a href="{{ obj.get_absolute_url }}"><b>{{ obj.title }}</b></a>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+ 
+  {% if posts.has_previous %}
+  <a href="?page={{ posts.previous_page_number }}">Назад</a>
+  {% endif %}
+  <span>{{ posts.number }} / {{ posts.num_pages }}</span>
+  {% if posts.has_next %}
+  <a href="?page={{ posts.next_page_number }}" >Вперед</a>
+  {% endif %}
+{% endblock %}
